@@ -1,7 +1,82 @@
+from django.conf.urls import include, url
 from datetime import date
 from django.contrib import admin
+from django.shortcuts import render
+import csv
+from django.http import HttpResponse
 
 from .models import Collection, Document
+
+
+class MyModelAdmin(admin.ModelAdmin):
+    def get_urls(self):
+        urls = super(MyModelAdmin, self).get_urls()
+        my_urls = [
+            url(r'^radio_csv/$', self.radio_talks_csv_export),
+            url(r'^electoral_csv/$', self.electoral_csv_export),
+            url(r'^press_csv/$', self.press_csv_export),
+            url(r'^other_csv/$', self.other),
+        ]
+        return my_urls + urls
+
+    def radio_talks_csv_export(self, request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="radio_talks.csv"'
+
+        talks = Document.objects.filter(description__contains="adio")
+
+        writer = csv.writer(response)
+        writer.writerow(['UMA', 'Title', 'Description'])
+        
+        for doc in talks:
+            writer.writerow([doc.collection_uma_id, doc.title, doc.description])
+
+        return response    
+
+    def electoral_csv_export(self, request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="electoral.csv"'
+
+        talks = Document.objects.filter(description__contains="lectoral")
+
+        writer = csv.writer(response)
+        writer.writerow(['UMA', 'Title', 'Description'])
+        
+        for doc in talks:
+            writer.writerow([doc.collection_uma_id, doc.title, doc.description])
+
+        return response    
+        
+    def press_csv_export(self, request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="press.csv"'
+
+        talks = Document.objects.filter(description__contains="ress")
+
+        writer = csv.writer(response)
+        writer.writerow(['UMA', 'Title', 'Description'])
+        
+        for doc in talks:
+            writer.writerow([doc.collection_uma_id, doc.title, doc.description])
+
+        return response    
+
+    def other(self, request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="other.csv"'
+
+        wtalks = Document.objects.filter(description__contains="eekly")
+        stalks = Document.objects.filter(description__contains="tatement")
+        writer = csv.writer(response)
+        writer.writerow(['UMA', 'Title', 'Description'])
+        
+        for doc in wtalks:
+            writer.writerow([doc.collection_uma_id, doc.title, doc.description])
+        for doc in stalks:
+            writer.writerow([doc.collection_uma_id, doc.title, doc.description])
+
+        return response    
+     
 
 class DecadeListFilter(admin.SimpleListFilter):
     title = 'decade delivered'
@@ -34,7 +109,8 @@ class DecadeListFilter(admin.SimpleListFilter):
             return queryset.filter(date_first__gte=date(1990, 1, 1),
                                     date_first__lte=date(1999, 12, 31))
 
-class DocumentAdmin(admin.ModelAdmin):
+#class DocumentAdmin(admin.ModelAdmin):
+class DocumentAdmin(MyModelAdmin):
    list_display = ('title','get_year', 'description') 
    list_filter = (DecadeListFilter,)
 
