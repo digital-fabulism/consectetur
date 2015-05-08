@@ -17,34 +17,37 @@ class Collection(models.Model):
         super(Collection, self).save()
 
 class Document(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=50)
+    title = models.CharField(max_length=140)
+    description = models.CharField(max_length=67)
     date_first = models.DateField(blank=True,null=True)
     date_last = models.DateField(blank=True, null=True)
     collection = models.ForeignKey(Collection)
-    collection_uma_id = models.CharField(max_length=4)
+    collection_uma_id = models.CharField(max_length=14)
     uds_number = models.CharField(max_length=14)
     format = models.CharField(max_length=25)
     previous_control_number = models.CharField(max_length=15)
-    extent_medium = models.CharField(max_length=20)
-    notes = models.CharField(max_length=1500)
+    extent_medium = models.CharField(max_length=25)
+    notes = models.CharField(max_length=1500, blank=True)
     irn = models.URLField()
-    rights = models.CharField(max_length=500)
-    slug = models.SlugField(max_length=14)
-    
-    text_file = models.FileField(upload_to='text/', max_length=100)
-    image_file = models.ImageField(upload_to='image/', max_length=100)
-    pdf_file = models.FileField(upload_to='pdf/', max_length=100)
+    rights = models.CharField(max_length=500, blank=True)
+    slug = models.SlugField(max_length=100)
+   
+    body_text = models.CharField(max_length=20000) 
+    text_file = models.FileField(upload_to='text/', max_length=100, blank=True, null=True)
+    image_file = models.ImageField(upload_to='image/', max_length=100, blank=True, null=True)
+    pdf_file = models.FileField(upload_to='pdf/', max_length=100, blank=True, null=True)
 
 
     def id_number(self):
-        return "%s.%s" %(self.collection, self.collection_id)
+        return "%s.%s" %(self.collection, self.collection_uma_id)
     
     def __unicode__(self):
-        return "%s, %s" %(self.title, self.id_number())
+        return "%s,%s" %(self.title, self.id_number())
 
     def save(self):    
-        uma_id = "%s.%s" %(self.collection, self.collection_id)
-        self.slug = slugify(uma_id)
+        #uma_id = "%s.%s" %(self.collection, self.collection_uma_id)
+        self.slug = slugify(self.id_number())
         super(Document, self).save()
 
+    def get_year(self):
+        return self.date_first.year

@@ -91,4 +91,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR+'/static/'
-MEDIA_ROOT = BASE_DIR+'/media/'
+MEDIA_ROOT = BASE_DIR+'/files/'
+
+IPYTHON_ARGUMENTS = [
+    '--ext', 'django_extensions.management.notebook_extension',
+    '--debug',
+]
+
+NOTEBOOK_ARGUMENTS = [
+    '--ip=0.0.0.0',
+    '--port=8989',
+]
+
+
+SHELL_PLUS_PRE_IMPORTS = (
+    ('texts.models', '*'),
+)
