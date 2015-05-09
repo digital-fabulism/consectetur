@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="col-md-12"><p>&nbsp;</p>
+</div>
+<div class="col-md-6">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h4 class="panel-title">Details</h4>
+    </div>
+    <div class="panel-body">
+      <p><strong>Title:</strong> {{ object.title }}</p>
+      <p><strong>Description:</strong> {{ object.description }}</p>
+      <p><strong>First date broadcast:</strong> {{ object.date_first }}</p>
+      {% if object.date_last %}       
+        <p><strong>Last date broadcast:</strong> {{ object.date_last }}</p>
+      {% endif %}  
+        <p><strong>Notes:</strong> {{ object.notes }}</p>
+    </div>
+  </div>
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">Archive details</h4>
+    </div>
+    <div class="panel-body">
+        <p><strong>UMA number:</strong> {{ object.collection_uma_id }}</p>
+        <p><strong>UDS number:</strong> {{ object.uds_number }}</p>
+        <p><strong>IRN:</strong> <a href="{{ object.irn }}">{{ object.irn }}</a></p>
+        <p><strong>Previous control number:</strong> {{ object.previous_control_number }}</p>
+    </div>
+  </div>
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <h4 class="panel-title">Extra details</h4>
+    </div>
+    <div class="panel-body">
+        <p><strong>Format:</strong> {{ object.format }}</p>
+        <p><strong>Extent medium:</strong> {{ object.extent_medium }}</p>
+        <p><strong>Rights:</strong> {{ object.rights }}</p>
+    </div>
+  </div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4 class="panel-title">Original Files</h4>
+    </div>
+    <div class="panel-body">
+        <p><strong>OCR text file:</strong> <a href="{{ object.text_file.url }}">{{ object.text_file }}</a></p>
+        {% if object.pdf_file %}
+            <p><strong>Original PDF:</strong> <a href="{{ object.pdf_file.url }}">{{ object.pdf_file }}</a></p>
+        {% endif %}
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4 class="panel-title">Text</h4>
+    </div>
+    <div class="panel-body">
+        {{ object.body_text }}
+    </div>
+  </div>
+</div>
+{% endblock main_content %}
+

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <div class="col-md-12">&nbsp;
+    </div>
+    <div class="col-md-12">
+        {% regroup object_list by get_year as year_list %}
+        <nav>
+            <ul class="pager">
+            {% for year in year_list %}
+                <li><a href="#{{ year.grouper }}-electorate">{{ year.grouper }}</a></li>
+            {% endfor %}
+            </ul>
+        </nav>
+        {% for year in year_list %}
+            <div class="row"> 
+                <div class="pull-left year-header"><a name="{{ year.grouper}}-electorate">{{ year.grouper }}</a></div>
+                <div class="pull-right"><a href="#top">Back to top</a></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 pull-left">
+                <h4>Electorate radio talks</h4>
+                    <table class="table table-striped table-hover">
+                        <colgroup>
+                            <col class="col-md-2">
+                            <col class="col-md-4">
+                        </colgroup>
+                        <tbody>
+                            {% for doc in year.list %}
+                                {% if doc.description = "Electorate radio talk" %}
+                                <tr>
+                                    <td>{{ doc.date_first }}</td>
+                                    <td><a href="{{ doc.get_absolute_url }}">{{ doc.title }}</a></td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                        </table>
+                </div>
+                <div class="col-md-6 pull-right">
+                <h4>Press statements</h4>
+                    <table class="table table-striped table-hover">
+                        <colgroup>
+                            <col class="col-md-2">
+                            <col class="col-md-4">
+                        </colgroup>
+                        <tbody>
+                            {% for doc in year.list %}
+                                {% if doc.description = "Press statement" %}
+                                <tr>
+                                    <td>{{ doc.date_first }}</td>
+                                    <td><a href="{{ doc.get_absolute_url }}">{{ doc.title }}</a></td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                        </table>
+                </div>
+            </div>   
+            {% endfor %}
+    </div>
+{% endblock %}
