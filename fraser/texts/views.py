@@ -3,7 +3,6 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
-
 from .models import Document, Collection
 
 class DocumentList(ListView):
@@ -15,3 +14,10 @@ class DocumentDetail(DetailView):
 class DocumentUpdate(UpdateView):
     model = Document
 
+def electorate_talk_list(request):
+    talks = Document.objects.filter(description="Electorate radio talk")
+    return render(request, 'texts/electorate_list.html', {'talks': talks})
+
+def press_statement_list(request):
+    talks = Document.objects.filter(description="Press statement")
+    return render(request, 'texts/press_statement_list.html', {'talks': talks})
