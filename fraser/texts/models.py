@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.core.urlresolvers import reverse
 
 class Collection(models.Model):
     title = models.CharField(max_length=100)
@@ -37,6 +38,12 @@ class Document(models.Model):
     image_file = models.ImageField(upload_to='image/', max_length=100, blank=True, null=True)
     pdf_file = models.FileField(upload_to='pdf/', max_length=100, blank=True, null=True)
 
+    class Meta:
+        ordering =['date_first']
+    
+    def get_absolute_url(self):
+        return reverse('doc_detail', args=[self.slug])
+    
 
     def id_number(self):
         return "%s.%s" %(self.collection, self.collection_uma_id)

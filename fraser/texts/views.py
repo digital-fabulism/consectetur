@@ -1,36 +1,17 @@
 from django.shortcuts import render
-import csv
-from django.http import HttpResponse
-
-from texts.models import Document
-
-# Create your views here.
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 
-def radio_talks_csv_export2():
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="radio_talks.csv"'
+from .models import Document, Collection
 
-    talks = Document.objects.filter(description__contains="adio")
+class DocumentList(ListView):
+    model = Document
 
-    writer = csv.writer(response)
-    writer.writerow(['UMA', 'Title', 'Description'])
-    
-    for doc in talks:
-        writer.writerow([doc.collection_uma_id, doc.title, doc.description])
+class DocumentDetail(DetailView):
+    model = Document
 
-    return response    
+class DocumentUpdate(UpdateView):
+    model = Document
 
-def radio_talks_csv_export(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="radio_talks.csv"'
-
-    talks = Document.objects.filter(description__contains="adio")
-
-    writer = csv.writer(response)
-    writer.writerow(['UMA', 'Title', 'Description'])
-    
-    for doc in talks:
-        writer.writerow([doc.collection_uma_id, doc.title, doc.description])
-
-    return response    

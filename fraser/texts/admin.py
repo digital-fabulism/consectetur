@@ -36,7 +36,7 @@ class DecadeListFilter(admin.SimpleListFilter):
 
 class DocumentAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('Details', {'fields': (('title', 'date_first', 'date_last'), 'notes')}),
+        ('Details', {'fields': (('title', 'date_first', 'date_last'), ('description', 'notes'))}),
         ('Archival details', {'fields': (('collection', 'collection_uma_id'), ('uds_number', 'previous_control_number'), 'irn')}),
         ('Summary', {'fields': (('extent_medium', 'format', 'rights'), 'body_text')}),
         ('Files', {'fields': ('text_file', 'image_file', 'pdf_file')}),
