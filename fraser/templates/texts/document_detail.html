@@ -26,7 +26,9 @@
     </div>
     <div class="panel-body">
         <p><strong>UMA number:</strong> {{ object.collection_uma_id }}</p>
-        <p><strong>UDS number:</strong> {{ object.uds_number }}</p>
+        {% if object.uds_number %}
+            <p><strong>UDS number:</strong> {{ object.uds_number }}</p>
+        {% endif %}
         <p><strong>IRN:</strong> <a href="{{ object.irn }}">{{ object.irn }}</a></p>
         <p><strong>Previous control number:</strong> {{ object.previous_control_number }}</p>
     </div>
