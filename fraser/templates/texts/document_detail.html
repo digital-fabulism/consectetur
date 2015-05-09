@@ -15,7 +15,9 @@
       {% if object.date_last %}       
         <p><strong>Last date broadcast:</strong> {{ object.date_last }}</p>
       {% endif %}  
+      {% if object.notes %}
         <p><strong>Notes:</strong> {{ object.notes }}</p>
+      {% endif %}
     </div>
   </div>
   <div class="panel panel-danger">
