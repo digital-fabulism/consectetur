@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <div class="col-md-12">&nbsp;
+    </div>
+    <div class="col-md-12">
+        <h4>Electorate radio talks</h4>
+        {% regroup electorate by get_year as eyear_list %}
+        <nav>
+            <ul class="pager">
+            {% for eyear in eyear_list %}
+                <li><a href="#{{ eyear.grouper }}-electorate">{{ eyear.grouper }}</a></li>
+            {% endfor %}
+            </ul>
+        </nav>
+        <h4>Press Statements</h4>
+        {% regroup press_statements by get_year as psyear_list %}
+        <nav>
+            <ul class="pager">
+            {% for psyear in psyear_list %}
+                <li><a href="#{{ psyear.grouper }}-press">{{ psyear.grouper }}</a></li>
+            {% endfor %}
+            </ul>
+        </nav>
+        <h4>Other archives</h4>
+        {% regroup other by get_year as oyear_list %}
+        <nav>
+            <ul class="pager">
+            {% for oyear in oyear_list %}
+                <li><a href="#{{ oyear.grouper }}-other">{{ oyear.grouper }}</a></li>
+            {% endfor %}
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-4"> 
+    {% for eyear in eyear_list %}
+        <div class="pull-left year-header"><a name="{{ eyear.grouper}}-electorate">{{ eyear.grouper }}</a></div>
+        <div class="pull-right"><a href="#top">Back to top</a></div>
+        <h4>Electorate radio talks</h4>
+            <table class="table table-striped table-hover">
+                <colgroup>
+                    <col class="col-md-4">
+                    <col class="col-md-8">
+                </colgroup>
+                <tbody>
+                    {% for doc in eyear.list %}
+                        <tr>
+                            <td>{{ doc.date_first }}</td>
+                            <td><a href="{{ doc.get_absolute_url }}">{{ doc.title }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    {% endfor %}
+    </div>
+    <div class="col-md-4">
+    {% for psyear in psyear_list %}
+        <div class="pull-left year-header"><a name="{{ psyear.grouper}}-press">{{ psyear.grouper }}</a></div>
+        <div class="pull-right"><a href="#top">Back to top</a></div>
+        <h4>Press statements</h4>
+        <table class="table table-striped table-hover">
+            <colgroup>
+                <col class="col-md-4">
+                <col class="col-md-8">
+            </colgroup>
+            <tbody>
+                {% for doc in psyear.list %}
+                    <tr>
+                        <td>{{ doc.date_first }}</td>
+                        <td><a href="{{ doc.get_absolute_url }}">{{ doc.title }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+    </div>
+    <div class="col-md-4">
+    {% for oyear in oyear_list %}
+        <div class="pull-left year-header"><a name="{{ oyear.grouper}}-press">{{ oyear.grouper }}</a></div>
+        <div class="pull-right"><a href="#top">Back to top</a></div>
+        <h4>Other Archives</h4>
+        <table class="table table-striped table-hover">
+            <colgroup>
+                <col class="col-md-4">
+                <col class="col-md-8">
+            </colgroup>
+            <tbody>
+                {% for doc in oyear.list %}
+                    <tr>
+                        <td>{{ doc.date_first }}</td>
+                        <td><a href="{{ doc.get_absolute_url }}">{{ doc.title }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+    </div>
+{% endblock %}

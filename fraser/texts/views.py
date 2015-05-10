@@ -5,6 +5,13 @@ from django.core.urlresolvers import reverse_lazy
 
 from .models import Document, Collection
 
+def archive_index(request):
+    electorate = Document.objects.filter(description="Electorate radio talk")
+    press_statements = Document.objects.filter(description="Press statement")
+    other = Document.objects.exclude(description="Electorate radio talk").exclude(description="Press statement")
+    return render(request, 'texts/archive_list.html', {'electorate': electorate, 'press_statements':press_statements, 'other':other})
+    
+
 class DocumentList(ListView):
     model = Document
 
