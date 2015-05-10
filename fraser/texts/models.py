@@ -56,7 +56,7 @@ class Document(models.Model):
         return "%s.%s" %(self.collection, self.collection_uma_id)
     
     def __unicode__(self):
-        return "%s,%s" %(self.title, self.id_number())
+        return "%s, %s" %(self.title, self.id_number())
 
     def save(self):    
         self.slug = slugify(self.id_number())
