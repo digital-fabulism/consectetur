@@ -38,7 +38,8 @@ class DocumentAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Details', {'fields': (('title', 'date_first', 'date_last'), ('description', 'notes'))}),
         ('Archival details', {'fields': (('collection', 'collection_uma_id'), ('uds_number', 'previous_control_number'), 'irn')}),
-        ('Summary', {'fields': (('extent_medium', 'format', 'rights'), 'body_text')}),
+        ('Summary', {'fields': (('extent_medium', 'format', 'rights'), ('body_text', 'tags'))}),
+        ('Corrections', {'fields': ('correction_needed', 'correction_check', 'correction_complete')}),
         ('Files', {'fields': ('text_file', 'image_file', 'pdf_file')}),
     )
     list_display = ('title','get_year', 'description') 

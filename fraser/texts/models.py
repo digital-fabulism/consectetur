@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
+from taggit.managers import TaggableManager
+
 class Collection(models.Model):
     title = models.CharField(max_length=100)
     uri = models.URLField()
@@ -31,20 +33,25 @@ class Document(models.Model):
     notes = models.CharField(max_length=1500, blank=True)
     irn = models.URLField("IRN")
     rights = models.CharField(max_length=500, blank=True)
-    slug = models.SlugField(max_length=100)
-   
+
+    correction_needed = models.BooleanField(default=True)
+    correction_check = models.BooleanField(default=False)
+    correction_complete = models.BooleanField(default=False)
+
     body_text = models.CharField(max_length=20000) 
     text_file = models.FileField(upload_to='text/', max_length=100, blank=True, null=True)
     image_file = models.ImageField(upload_to='image/', max_length=100, blank=True, null=True)
     pdf_file = models.FileField(upload_to='pdf/', max_length=100, blank=True, null=True)
-
+    
+    slug = models.SlugField(max_length=100)
+    tags = TaggableManager()
+    
     class Meta:
         ordering =['date_first']
     
     def get_absolute_url(self):
         return reverse('doc_detail', args=[self.slug])
     
-
     def id_number(self):
         return "%s.%s" %(self.collection, self.collection_uma_id)
     
@@ -52,8 +59,9 @@ class Document(models.Model):
         return "%s,%s" %(self.title, self.id_number())
 
     def save(self):    
-        #uma_id = "%s.%s" %(self.collection, self.collection_uma_id)
         self.slug = slugify(self.id_number())
+        if correction_complete:
+            self.format = "Corrected OCR text"
         super(Document, self).save()
 
     def get_year(self):
