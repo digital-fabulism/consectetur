@@ -7,7 +7,7 @@
         <h4>Electorate radio talks</h4>
         {% regroup electorate by get_year as eyear_list %}
         <nav>
-            <ul class="pager pull-left">
+            <ul class="pager">
             {% for eyear in eyear_list %}
                 <li><a href="#{{ eyear.grouper }}-electorate">{{ eyear.grouper }}</a></li>
             {% endfor %}
@@ -18,7 +18,7 @@
         <h4>Press Statements</h4>
         {% regroup press_statements by get_year as psyear_list %}
         <nav>
-            <ul class="pager pull-left">
+            <ul class="pager">
             {% for psyear in psyear_list %}
                 <li><a href="#{{ psyear.grouper }}-press">{{ psyear.grouper }}</a></li>
             {% endfor %}
@@ -29,12 +29,15 @@
         <h4>Other archives</h4>
         {% regroup other by get_year as oyear_list %}
         <nav>
-            <ul class="pager pull-left">
+            <ul class="pager">
             {% for oyear in oyear_list %}
                 <li><a href="#{{ oyear.grouper }}-other">{{ oyear.grouper }}</a></li>
             {% endfor %}
             </ul>
         </nav>
+    </div>
+    <div class="clearfix visible-xs-block"></div>    
+<div class="col-md-12">&nbsp;
     </div>
     <div class="col-md-4"> 
         <h4>Electorate radio talks</h4>
