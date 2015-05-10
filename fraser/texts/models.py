@@ -44,7 +44,7 @@ class Document(models.Model):
     pdf_file = models.FileField(upload_to='pdf/', max_length=100, blank=True, null=True)
     
     slug = models.SlugField(max_length=100)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
     
     class Meta:
         ordering =['date_first']
@@ -60,7 +60,7 @@ class Document(models.Model):
 
     def save(self):    
         self.slug = slugify(self.id_number())
-        if correction_complete:
+        if self.correction_complete:
             self.format = "Corrected OCR text"
         super(Document, self).save()
 
