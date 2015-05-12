@@ -4,6 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
 from .models import Document, Collection
+from .forms import DocumentCorrectForm
 
 def archive_index(request):
     electorate = Document.objects.filter(description="Electorate radio talk")
@@ -20,6 +21,11 @@ class DocumentDetail(DetailView):
 
 class DocumentUpdate(UpdateView):
     model = Document
+
+class DocumentCorrect(UpdateView):
+    model = Document
+    template_name_suffix = '_correct'
+    form_class = DocumentCorrectForm
 
 def electorate_talk_list(request):
     talks = Document.objects.filter(description="Electorate radio talk")

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import DocumentUpdate, DocumentDetail, DocumentList, electorate_talk_list, press_statement_list, archive_index
+from .views import DocumentCorrect, DocumentUpdate, DocumentDetail, DocumentList, electorate_talk_list, press_statement_list, archive_index
 
 urlpatterns = [
     url(r'^$', DocumentList.as_view(), name='index'),
@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^press_statements/$', press_statement_list, name='press_statements'),
     url(r'^(?P<slug>[-\w]+)/$', DocumentDetail.as_view(), name='doc_detail'),
     url(r'^(?P<slug>[-\w]+)/update/$', DocumentUpdate.as_view(), name='doc_update'),
+    url(r'^(?P<slug>[-\w]+)/correct/$', DocumentCorrect.as_view(), name='doc_correct'),
 ]

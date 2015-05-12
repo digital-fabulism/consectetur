@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="col-md-12"><p>&nbsp;</p>
+</div>
+<div class="col-md-5">
+    <div class="">
+         <form action="" method="post">{% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group fieldWrapper">
+                {% for field in form %}
+                    {{ form.body_text.errors }}     
+                    {{ field }}
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary float-right" value="Update">Update</button>
+        </form>
+   </div>
+</div>
+<div class="col-md-7">
+<div class="media"><div class="media-left"><iframe class="media-body" src="http://docs.google.com/gview?url=http://devfraser.digitalfabulists.org{{ object.pdf_file.url }}&embedded=true" style="width:718px; height:700px;"></iframe></div></div>
+</div>
+{% endblock main_content %}
