@@ -97,6 +97,10 @@ class Document(models.Model):
         # use our duplication detector to find duplicates
         dupes = list_duplicates(raw_grams)
         ignored_words = nltk.corpus.stopwords.words('english')
+        # add more stopwords
+        ignored_words.extend(nltk.corpus.stopwords.words('justext-english'))
+        # deduplicate the stopwords :)
+        ignored_words = list(set(ignored_words))
         good_words = []
         for gram in dupes:
             words = gram[1]
