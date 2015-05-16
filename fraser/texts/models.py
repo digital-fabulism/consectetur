@@ -19,6 +19,10 @@ class Collection(models.Model):
         self.slug = slugify(self.ref_number)
         super(Collection, self).save()
 
+    def freq(self):
+        docs = c.document_set.all()
+
+
 class Document(models.Model):
     title = models.CharField(max_length=140)
     description = models.CharField(max_length=67)
@@ -66,3 +70,40 @@ class Document(models.Model):
 
     def get_year(self):
         return self.date_first.year
+
+    def ngrammer(self, gramsize=2, threshold=2):
+        import nltk
+        from nltk.util import ngrams
+        from collections import defaultdict
+        
+        text = self.body_text
+
+        # get ngrams of gramsize    
+        if type(text) != list:
+            text = nltk.word_tokenize(text)
+        text = [token for token in text if token.isalnum()]
+        # get ngrams of gramsize    
+        raw_grams = ngrams(text, gramsize)
+        
+        # a subdefinition to get duplicate lists in a list
+        def list_duplicates(seq):
+            tally = defaultdict(list)
+            for i,item in enumerate(seq):
+                tally[item].append(i)
+                # return to us the index and the ngram itself:
+            return ((len(locs),key) for key,locs in tally.items() 
+                   if len(locs) > threshold)
+
+        # use our duplication detector to find duplicates
+        dupes = list_duplicates(raw_grams)
+        ignored_words = nltk.corpus.stopwords.words('english')
+        good_words = []
+        for gram in dupes:
+            words = gram[1]
+            #if any(iter(words)) not in ignored_words:
+            if words[0] not in ignored_words and words[1] not in ignored_words: 
+               good_words.append(gram)
+        # return them, sorted by most frequent
+        #return sorted(dupes, reverse = True)
+        return sorted(good_words, reverse = True)
+ 
