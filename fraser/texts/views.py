@@ -21,6 +21,7 @@ class DocumentDetail(DetailView):
 
 class DocumentUpdate(UpdateView):
     model = Document
+    fields = ['title', 'description', 'date_first', 'date_last', 'collection', 'collection_uma_id', 'uds_number', 'format', 'previous_control_number', 'extent_medium', 'notes', 'irn', 'rights', 'text_file', 'image_file', 'pdf_file'] 
 
 class DocumentCorrect(UpdateView):
     model = Document
