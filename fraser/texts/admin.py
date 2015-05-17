@@ -4,6 +4,24 @@ from django.contrib import admin
 from .models import Collection, Document
 from .forms import DocModelForm
 
+
+class PDFFilter(admin.SimpleListFilter):
+    title = 'pdfs'
+    parameter_name='pdf'
+
+    def lookups(self, request, model_admin):
+        return (
+                ('none', 'No PDF'),
+                ('some', 'Has PDF'),
+               )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'none':
+            return queryset.filter(pdf_file='')
+        if self.value() == 'some':
+            return queryset.exclude(pdf_file='')
+        
+
 class DecadeListFilter(admin.SimpleListFilter):
     title = 'decade delivered'
     parameter_name = 'decade'
@@ -43,7 +61,7 @@ class DocumentAdmin(admin.ModelAdmin):
         ('Files', {'fields': ('text_file', 'image_file', 'pdf_file')}),
     )
     list_display = ('title','get_year', 'description') 
-    list_filter = (DecadeListFilter, 'description',)
+    list_filter = (DecadeListFilter, PDFFilter, 'description',)
     form = DocModelForm
 
 admin.site.register(Collection)
