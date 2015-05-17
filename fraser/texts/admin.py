@@ -61,7 +61,8 @@ class DocumentAdmin(admin.ModelAdmin):
         ('Files', {'fields': ('text_file', 'image_file', 'pdf_file')}),
     )
     list_display = ('title','get_year', 'description') 
-    list_filter = (DecadeListFilter, PDFFilter, 'description',)
+    #list_filter = (DecadeListFilter, PDFFilter, 'description',)
+    list_filter = (DecadeListFilter,'description',)
     form = DocModelForm
 
 admin.site.register(Collection)
