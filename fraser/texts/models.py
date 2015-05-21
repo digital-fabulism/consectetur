@@ -1,8 +1,15 @@
+import nltk
+from nltk.util import ngrams
+from collections import defaultdict
+
 from django.db import models
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from taggit.managers import TaggableManager
+
+nltk.data.path.append(settings.NLTK_DATA)
 
 class Collection(models.Model):
     title = models.CharField(max_length=100)
@@ -47,6 +54,8 @@ class Document(models.Model):
     image_file = models.ImageField(upload_to='image/', max_length=100, blank=True, null=True)
     pdf_file = models.FileField(upload_to='pdf/', max_length=100, blank=True, null=True)
     
+    #bigrams = models.CharField(max_length=
+    #trigrams =
     slug = models.SlugField(max_length=100)
     tags = TaggableManager(blank=True)
     
@@ -72,11 +81,7 @@ class Document(models.Model):
         return self.date_first.year
 
     def ngrammer(self, gramsize=2, threshold=2):
-        import nltk
-        from nltk.util import ngrams
-        from collections import defaultdict
-        
-        text = self.body_text
+        text = self.body_text.lower()
 
         # get ngrams of gramsize    
         if type(text) != list:
@@ -98,16 +103,12 @@ class Document(models.Model):
         dupes = list_duplicates(raw_grams)
         ignored_words = nltk.corpus.stopwords.words('english')
         # add more stopwords
-        ignored_words.extend(nltk.corpus.stopwords.words('justext-english'))
+        ignored_words.extend(nltk.corpus.stopwords.words('justext_english'))
         # deduplicate the stopwords :)
         ignored_words = list(set(ignored_words))
         good_words = []
-        for gram in dupes:
-            words = gram[1]
-            #if any(iter(words)) not in ignored_words:
-            if words[0] not in ignored_words and words[1] not in ignored_words: 
+        for count, words in dupes:
+            if any(word not in ignored_words for word in words):
                good_words.append(gram)
         # return them, sorted by most frequent
-        #return sorted(dupes, reverse = True)
         return sorted(good_words, reverse = True)
- 

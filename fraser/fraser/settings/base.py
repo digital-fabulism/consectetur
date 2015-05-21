@@ -25,7 +25,7 @@ SECRET_KEY = 'ya)*amade&^blylqqu33uk2sgykw855^5c!m%uelq0^dztnb%u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0',]
+ALLOWED_HOSTS = ['fraser.digitalfabulists.org', 'devfraser.digitalfabulists.org', '*digitalfabulists.org']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'texts',
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'fraser.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'fraser.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Australia/Melbourne'
 
 USE_I18N = True
 
@@ -90,8 +91,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR+'/static/'
-MEDIA_ROOT = BASE_DIR+'/files/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = '/srv/devmedia/' 
+MEDIA_URL = '/media/'
 
 IPYTHON_ARGUMENTS = [
     '--ext', 'django_extensions.management.notebook_extension',
@@ -107,3 +109,6 @@ NOTEBOOK_ARGUMENTS = [
 SHELL_PLUS_PRE_IMPORTS = (
     ('texts.models', '*'),
 )
+
+NLTK_DATA = os.path.join(BASE_DIR, 'nltk_data')
+

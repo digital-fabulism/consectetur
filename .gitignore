@@ -3,3 +3,7 @@
 
 # local settings files
 dev.py
+wsgi.py
+migrations*
+static*
+nltk_data*
