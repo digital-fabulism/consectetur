@@ -81,34 +81,44 @@ class Document(models.Model):
         return self.date_first.year
 
     def ngrammer(self, gramsize=2, threshold=2):
-        text = self.body_text.lower()
-
-        # get ngrams of gramsize    
-        if type(text) != list:
-            text = nltk.word_tokenize(text)
-        text = [token for token in text if token.isalnum()]
-        # get ngrams of gramsize    
-        raw_grams = ngrams(text, gramsize)
         
-        # a subdefinition to get duplicate lists in a list
-        def list_duplicates(seq):
+        # return the ngram and count of appearances in speech
+        def ngram_frequency_distribution(seq):
             tally = defaultdict(list)
+            ngram_freq_dist = []
             for i,item in enumerate(seq):
                 tally[item].append(i)
-                # return to us the index and the ngram itself:
-            return ((len(locs),key) for key,locs in tally.items() 
-                   if len(locs) > threshold)
-
-        # use our duplication detector to find duplicates
-        dupes = list_duplicates(raw_grams)
+            for ngram, linenumber in tally.items():
+                if len(linenumber) > threshold:
+                    ngram_freq_dist.append({ngram: len(linenumber)})
+            return ngram_freq_dist 
+                  
+        '''
+            Get text all in lowercase, tokenize text,
+            remove punctutation, get gramsize ngrams
+        '''
+        text = self.body_text.lower()
+        text = nltk.word_tokenize(text)
+        text = [token for token in text if token.isalnum()]
+        shingles = ngrams(text, gramsize)
+        
+        '''
+            remove ignored words, get frequency distribution
+        '''
+        shingles_list = ngram_frequency_distribution(shingles)
         ignored_words = nltk.corpus.stopwords.words('english')
-        # add more stopwords
         ignored_words.extend(nltk.corpus.stopwords.words('justext_english'))
-        # deduplicate the stopwords :)
         ignored_words = list(set(ignored_words))
-        good_words = []
-        for count, words in dupes:
+        shingle_list_w_frequency = []
+        
+        for ngram_dist in shingles_list:
+            for words, count in ngram_dist.iteritems():
+                if any(word not in ignored_words for word in words):
+                    shingle_list_w_frequency.append(ngram_dist)
+        '''
+        for count, words in :
             if any(word not in ignored_words for word in words):
                good_words.append(gram)
+        '''
         # return them, sorted by most frequent
-        return sorted(good_words, reverse = True)
+        return sorted(shingle_list_w_frequency, reverse = True)
