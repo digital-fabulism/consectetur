@@ -2,6 +2,7 @@
 *.pyo
 
 # local settings files
+prod.py
 dev.py
 wsgi.py
 migrations*
