@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'haystack',
     'texts',
     'taggit',
 )
@@ -105,3 +106,9 @@ SHELL_PLUS_PRE_IMPORTS = (
 
 NLTK_DATA = os.path.join(BASE_DIR, 'nltk_data')
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8983/solr'
+    },
+}
