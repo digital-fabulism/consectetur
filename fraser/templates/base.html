@@ -32,6 +32,11 @@
                         <li><a href="{% url 'electorates' %}">Electorate Radio Talks</a></li>
                         <li><a href="{% url 'press_statements' %}">Press Statements</a></li>
                     </ul>
+                    <form method=get action="/search" class="navbar-form pull-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="q" placeholder="Search" />
+                    </div>
+                    </form>
                 </div>
             </div> <!-- end container fluid-->           
             </nav>
