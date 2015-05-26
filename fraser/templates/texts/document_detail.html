@@ -64,10 +64,8 @@
     <div class="col-md-3">
     {% if object.correction_needed %}    
         <div><a class="btn btn-info float-right" href="{{ object.get_absolute_url }}correct" role="button">Correct Text</a><p></p></div>
-        </div>
     {% elif object.correction_check %}
         <div><a class="btn btn-warning float-right" href="{{ object.get_absolute_url }}check" role="button">Check Text</a><p></p></div>
-        </div>
     {% endif %}
     </div>    
  <div class="clearfix"></div> <div class="panel panel-primary">
