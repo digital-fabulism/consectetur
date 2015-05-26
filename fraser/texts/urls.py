@@ -10,5 +10,8 @@ urlpatterns = [
     url(r'^press_statements/$', press_statement_list, name='press_statements'),
     url(r'^(?P<slug>[-\w]+)/$', DocumentDetail.as_view(), name='doc_detail'),
     url(r'^(?P<slug>[-\w]+)/update/$', DocumentUpdate.as_view(), name='doc_update'),
+    url(r'^(?P<slug>[-\w]+)/revert/$', revert_document, name='doc_revert'),
+    url(r'^(?P<slug>[-\w]+)/finalize/$', finalize_document, name='doc_finalize'),
     url(r'^(?P<slug>[-\w]+)/correct/$', DocumentCorrect.as_view(), name='doc_correct'),
+    url(r'^(?P<slug>[-\w]+)/check/$', DocumentCorrect.as_view(), name='doc_check'),
 ]

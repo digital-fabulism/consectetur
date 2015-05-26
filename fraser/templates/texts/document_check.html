@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="col-md-12"><p>&nbsp;</p>
+</div>
+<div class="col-md-5">
+    <div class="">
+         <form action="" method="post">{% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group fieldWrapper">
+                {% for field in form %}
+                    {{ form.body_text.errors }}     
+                    {{ field }}
+                {% endfor %}
+            </div>
+            <a class="btn btn-primary float-right" href="{{ object.get_absolute_url }}revert" role="button">Needs more work</a>
+            <a class="btn btn-info float-right" href="{{ object.get_absolute_url }}finalized" role="button">Looks good</a>
+        </form>
+   </div>
+</div>
+<div class="col-md-7">
+{% if object.pdf_file %}<div class="media"><div class="media-left"><iframe class="media-body" src="http://docs.google.com/gview?url=http://fraser.digitalfabulists.org{{ object.pdf_file.url }}&embedded=true" style="width:718px; height:700px;"></iframe></div></div>
+</div>{% endif %}
+{% endblock main_content %}
