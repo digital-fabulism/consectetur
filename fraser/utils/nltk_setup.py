@@ -30,5 +30,3 @@ JUSTEXT = os.path.join(STOPWORDS, 'justext_english')
 
 justext_stopwords = urllib.URLopener()
 justext_stopwords.retrieve("https://raw.githubusercontent.com/endredy/jusText/master/stoplists/English.txt", JUSTEXT)
-
-
