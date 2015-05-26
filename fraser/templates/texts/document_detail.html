@@ -18,6 +18,12 @@
       {% if object.notes %}
         <p><strong>Notes:</strong> {{ object.notes }}</p>
       {% endif %}
+        {% if object.tags.all.count > 0 %}
+        Tags:
+            {% for tag in object.tags.all %}
+                <a href="/tags/{{ tag.slug }}">{{ tag }}</a>,
+            {% endfor %}      
+        {% endif %}
     </div>
   </div>
   <div class="panel panel-danger">
@@ -64,7 +70,7 @@
         </div>
     {% endif %}    
  <div class="clearfix"></div> <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading"> 
       <h4 class="panel-title">Text</h4>
     </div>
     <div class="panel-body">
