@@ -113,12 +113,16 @@ class Document(models.Model):
         
         for ngram_dist in shingles_list:
             for words, count in ngram_dist.iteritems():
-                if any(word not in ignored_words for word in words):
-                    shingle_list_w_frequency.append(ngram_dist)
-        '''
-        for count, words in :
-            if any(word not in ignored_words for word in words):
-               good_words.append(gram)
-        '''
+                if not any(word in ignored_words for word in words):
+                    ngram = " ".join(words)
+                    shingle_list_w_frequency.append({ngram: count})
+        
         # return them, sorted by most frequent
         return sorted(shingle_list_w_frequency, reverse = True)
+
+    def tag_me(self):
+        for gramsize in (2,3):
+            for ngram in self.ngrammer(gramsize=gramsize):
+                for shingle, count in ngram.iteritems():
+                    self.tags.add(shingle)
+        self.save()
