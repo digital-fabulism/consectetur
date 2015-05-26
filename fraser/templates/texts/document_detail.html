@@ -59,15 +59,19 @@
   </div>
 </div>
 <div class="col-md-6">
-    <div class="col-md-9">&nbsp;
-    </div>    
-    <div class="col-md-3">
     {% if object.correction_needed %}    
-        <div><a class="btn btn-info float-right" href="{{ object.get_absolute_url }}correct" role="button">Correct Text</a><p></p></div>
+        <div class="col-md-9">&nbsp;
+        </div>    
+        <div class="col-md-3"> 
+            <div><a class="btn btn-info float-right" href="{{ object.get_absolute_url }}correct" role="button">Correct Text</a><p></p></div>
+        </div>
     {% elif object.correction_check %}
-        <div><a class="btn btn-warning float-right" href="{{ object.get_absolute_url }}check" role="button">Check Text</a><p></p></div>
+        <div class="col-md-9">&nbsp;
+        </div>    
+        <div class="col-md-3"> 
+            <div><a class="btn btn-warning float-right" href="{{ object.get_absolute_url }}check" role="button">Check Text</a><p></p></div>
+        </div>
     {% endif %}
-    </div>    
  <div class="clearfix"></div> <div class="panel panel-primary">
     <div class="panel-heading"> 
       <h4 class="panel-title">Text</h4>
