@@ -16,6 +16,16 @@ def archive_index(request):
 class DocumentList(ListView):
     model = Document
 
+class DocumentCheckList(ListView):
+    model = Document
+    queryset = Document.objects.filter(correction_check=True)
+    template_name_suffix = "_checklist"
+
+class DocumentCorrectList(ListView):
+    model = Document
+    queryset = Document.objects.filter(correction_needed = True)    
+    template_name_suffix = "_correctlist"
+
 class DocumentDetail(DetailView):
     model = Document
 
