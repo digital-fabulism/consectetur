@@ -65,10 +65,11 @@
     {% if object.correction_needed %}    
         <div><a class="btn btn-info float-right" href="{{ object.get_absolute_url }}correct" role="button">Correct Text</a><p></p></div>
         </div>
-    {% else if object.correction_check %}
-        <div><a class="btn btn-info float-right" href="{{ object.get_absolute_url }}check" role="button">Check Text</a><p></p></div>
+    {% elif object.correction_check %}
+        <div><a class="btn btn-warning float-right" href="{{ object.get_absolute_url }}check" role="button">Check Text</a><p></p></div>
         </div>
-    {% endif %}    
+    {% endif %}
+    </div>    
  <div class="clearfix"></div> <div class="panel panel-primary">
     <div class="panel-heading"> 
       <h4 class="panel-title">Text</h4>

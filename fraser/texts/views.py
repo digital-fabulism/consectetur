@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
 from .models import Document, Collection
-from .forms import DocumentCorrectForm
+from .forms import DocumentCorrectForm, DocumentCheckForm
 
 def archive_index(request):
     electorate = Document.objects.filter(description="Electorate radio talk")
@@ -26,14 +26,14 @@ class DocumentUpdate(UpdateView):
 class DocumentCheck(UpdateView):
     model = Document
     template_name_suffix = '_check'
-    form_class = DocumentCorrectForm
+    form_class = DocumentCheckForm
 
 class DocumentCorrect(UpdateView):
     model = Document
     template_name_suffix = '_correct'
     form_class = DocumentCorrectForm
 
-def revert_document(request):
+def revert_document(request, slug=None):
     document = Document.objects.get(slug=slug)
     document.correction_needed = True
     document.correction_check = False
@@ -41,7 +41,7 @@ def revert_document(request):
     document.save()
     return redirect(document)
 
-def finalize_document(request):
+def finalize_document(request, slug=None):
     document = Document.objects.get(slug=slug)
     document.correction_needed = False
     document.correction_check = False

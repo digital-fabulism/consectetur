@@ -11,7 +11,23 @@ class DocModelForm(forms.ModelForm):
     
 class DocumentCorrectForm(forms.ModelForm):
     body_text = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'cols': 10, 'rows': 25}))
-    
+   
+    def save(self, commit=True):
+        instance = super(DocumentCorrectForm, self).save(commit=False)
+        instance.correction_needed = False
+        instance.correction_check = True
+        instance.correction_complete = False
+        if commit:
+            instance.save()
+        return super(DocumentCorrectForm, self).save() 
+
+    class Meta:
+        model = Document
+        fields = ['body_text'] 
+
+class DocumentCheckForm(forms.ModelForm):
+    body_text = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'cols': 10, 'rows': 25}))
+   
     class Meta:
         model = Document
         fields = ['body_text'] 
