@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'haystack',
     'texts',
     'taggit',
+    'jsonfield',
 )
 
 MIDDLEWARE_CLASSES = (
