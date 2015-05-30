@@ -1,6 +1,7 @@
 import nltk
 from nltk.util import ngrams
 from collections import defaultdict
+import json
 
 from django.db import models
 from django.utils.text import slugify
@@ -8,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from taggit.managers import TaggableManager
+import jsonfield
 
 nltk.data.path.append(settings.NLTK_DATA)
 
@@ -54,8 +56,9 @@ class Document(models.Model):
     image_file = models.ImageField(upload_to='image/', max_length=100, blank=True, null=True)
     pdf_file = models.FileField(upload_to='pdf/', max_length=100, blank=True, null=True)
     
-    #bigrams = models.CharField(max_length=
-    #trigrams =
+    bigrams = jsonfield.JSONField()
+    trigrams = jsonfield.JSONField()
+
     slug = models.SlugField(max_length=100)
     tags = TaggableManager(blank=True)
     
@@ -120,6 +123,16 @@ class Document(models.Model):
         # return them, sorted by most frequent
         return sorted(shingle_list_w_frequency, reverse = True)
 
+    def set_bigrams(self):
+        bigrams = json.dumps(self.ngrammer(gramsize=2))
+        self.bigrams = bigrams
+        self.save()
+
+    def set_trigrams(self):
+        trigrams = json.dumps(self.ngrammer(gramsize=3))
+        self.trigrams = trigrams
+        self.save()
+    
     def tag_me(self):
         for gramsize in (2,3):
             for ngram in self.ngrammer(gramsize=gramsize):

@@ -19,10 +19,28 @@
         <p><strong>Notes:</strong> {{ object.notes }}</p>
       {% endif %}
         {% if object.tags.all.count > 0 %}
-        Tags:
+        <p><strong>Tags:</strong>
             {% for tag in object.tags.all %}
                 <a href="/tags/{{ tag.slug }}">{{ tag }}</a>,
-            {% endfor %}      
+            {% endfor %}      </p>
+        {% endif %}
+        {% if object.bigrams|length > 0 %}
+        <p><strong>Bigrams:</strong>
+            {% for gram in object.bigrams %}
+                {% for term, count in gram.iteritems %}
+                    {{ term }},
+                {% endfor %}
+            {% endfor %}
+        </p>
+        {% endif %}
+        {% if object.trigrams|length > 0 %}
+        <p><strong>Trigrams:</strong>
+            {% for gram in object.trigrams %}
+                {% for term, count in gram.iteritems %}
+                    {{ term }},
+                {% endfor %}
+            {% endfor %}
+        </p>
         {% endif %}
     </div>
   </div>
@@ -76,7 +94,7 @@
     <div class="panel-heading"> 
       <h4 class="panel-title">Text</h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body bodytext">
         {{ object.body_text|linebreaks }}
     </div>
   </div>
