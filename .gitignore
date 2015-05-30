@@ -4,7 +4,8 @@
 # local settings files
 prod.py
 dev.py
-wsgi.py
+*manage.py
+*wsgi.py
 migrations*
 static*
 nltk_data*
