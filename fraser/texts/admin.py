@@ -58,6 +58,7 @@ class DocumentAdmin(admin.ModelAdmin):
         ('Archival details', {'fields': (('collection', 'collection_uma_id'), ('uds_number', 'previous_control_number'), 'irn')}),
         ('Summary', {'fields': (('extent_medium', 'format', 'rights'), ('body_text', 'tags'))}),
         ('Corrections', {'fields': ('correction_needed', 'correction_check', 'correction_complete')}),
+        ('Marked text', {'fields': ('body_text_marked',)}),
         ('Files', {'fields': ('text_file', 'image_file', 'pdf_file')}),
     )
     list_display = ('title','get_year', 'description') 

@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+    {{ block.super }}
+    <script src="{% static "js/local.js" %}"></script> 
+
+{% endblock head %}
 
 {% block main_content %}
 <div class="col-md-12"><p>&nbsp;</p>
@@ -28,7 +35,7 @@
         <p><strong>Bigrams:</strong>
             {% for gram in object.bigrams %}
                 {% for term, count in gram.iteritems %}
-                    {{ term }},
+                    <span class="ngram-hover">{{ term }}</span>,
                 {% endfor %}
             {% endfor %}
         </p>
@@ -37,7 +44,7 @@
         <p><strong>Trigrams:</strong>
             {% for gram in object.trigrams %}
                 {% for term, count in gram.iteritems %}
-                    {{ term }},
+                    <span class="ngram-hover">{{ term }}</span>,
                 {% endfor %}
             {% endfor %}
         </p>
@@ -94,10 +101,9 @@
     <div class="panel-heading"> 
       <h4 class="panel-title">Text</h4>
     </div>
-    <div class="panel-body bodytext">
-        {{ object.body_text|linebreaks }}
+    <div class="panel-body">{% autoescape off %}
+        {{ object.body_text_marked }}{% endautoescape %}
     </div>
   </div>
 </div>
 {% endblock main_content %}
-

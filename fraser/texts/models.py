@@ -58,6 +58,7 @@ class Document(models.Model):
     
     bigrams = jsonfield.JSONField()
     trigrams = jsonfield.JSONField()
+    body_text_marked = models.CharField(max_length=21000, blank=True) 
 
     slug = models.SlugField(max_length=100)
     tags = TaggableManager(blank=True)
@@ -132,7 +133,26 @@ class Document(models.Model):
         trigrams = json.dumps(self.ngrammer(gramsize=3))
         self.trigrams = trigrams
         self.save()
-    
+   
+    def mark_body_text(self):
+        self.body_text_marked = self.body_text.replace("\r\n\r\n","<p>")
+        self.body_text_marked = self.body_text_marked.replace("\r\n","<br />")
+        if len(self.trigrams) > 0:
+            self.body_text_marked = self.body_text
+            for ngram_freq in self.trigrams:
+                for ngram, count in ngram_freq.iteritems():
+                    replacement = '<span class="%s">%s</span>' % (slugify(ngram), ngram)
+                    self.body_text_marked = self.body_text_marked.replace(ngram, replacement) 
+            self.save()
+        if len(self.bigrams) > 0:
+            if not self.body_text_marked:
+                self.body_text_marked = self.body_text
+            for ngram_freq in self.bigrams:
+                for ngram, count in ngram_freq.iteritems():
+                    replacement = '<span class="%s">%s</span>' % (slugify(ngram), ngram)
+                    self.body_text_marked = self.body_text_marked.replace(ngram, replacement) 
+            self.save()
+     
     def tag_me(self):
         for gramsize in (2,3):
             for ngram in self.ngrammer(gramsize=gramsize):

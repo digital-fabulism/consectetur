@@ -1,7 +1,9 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html{% if request.LANGUAGE_CODE %} lang="{{ request.LANGUAGE_CODE }}"{% endif %}>
+
 <head>
+{% block head %}
     <meta charset="utf-8">
     {% block stylesheets %}
       <link rel="stylesheet" type="text/css" href="{% static "css/sandstone-bootstrap.css" %}">
@@ -13,8 +15,10 @@
     {% endblock javascript %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Malcolm Fraser Radio Electorate Talks{% endblock %}</title>
-</head>
 
+{% endblock head %}
+</head>
+<body>
 {% block content %}
     <div class="container">
         <div class="row">
@@ -54,7 +58,7 @@
                 {% block main_content %}
                 {% endblock %}
         </div>{# end content row #}
-   
+</body>   
     <div class="row clear"></div>
     <div class="row" id="footer">{# footer #}
         {% block footer %}

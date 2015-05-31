@@ -6,6 +6,6 @@ prod.py
 dev.py
 *manage.py
 *wsgi.py
-migrations*
 static*
+migrations*
 nltk_data*
