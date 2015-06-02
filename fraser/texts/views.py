@@ -59,7 +59,6 @@ def finalize_document(request, slug=None):
     document.save()
     return redirect(document)
     
-
 def electorate_talk_list(request):
     talks = Document.objects.filter(description="Electorate radio talk")
     return render(request, 'texts/electorate_list.html', {'talks': talks})
@@ -67,3 +66,19 @@ def electorate_talk_list(request):
 def press_statement_list(request):
     talks = Document.objects.filter(description="Press statement")
     return render(request, 'texts/press_statement_list.html', {'talks': talks})
+
+class TagIndexList(ListView):
+    def get_queryset(self):
+        return Document.objects.filter(tags__slug=self.kwargs.get('slug'))
+
+class TagDetailList(ListView):
+    template_name = 'texts/tag_detail.html'
+    models = Document
+    
+    def get_queryset(self):
+        return Document.objects.filter(tags__slug=self.kwargs.get('slug'))
+
+    def get_context_data(self, **kwargs):
+        context = super(TagDetailList, self).get_context_data(**kwargs)
+        context['tag'] = self.kwargs.get('slug')
+        return context

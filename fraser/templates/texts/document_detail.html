@@ -28,14 +28,14 @@
         {% if object.tags.all.count > 0 %}
         <p><strong>Tags:</strong>
             {% for tag in object.tags.all %}
-                <a href="/tags/{{ tag.slug }}">{{ tag }}</a>,
-            {% endfor %}      </p>
+                <a href="/tag/{{ tag.slug }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}  
+            {% endfor %}</p>
         {% endif %}
         {% if object.bigrams|length > 0 %}
         <p><strong>Bigrams:</strong>
             {% for gram in object.bigrams %}
                 {% for term, count in gram.iteritems %}
-                    <span class="ngram-hover">{{ term }}</span>,
+                    <span class="ngram-hover">{{ term }}</span>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             {% endfor %}
         </p>
@@ -44,7 +44,7 @@
         <p><strong>Trigrams:</strong>
             {% for gram in object.trigrams %}
                 {% for term, count in gram.iteritems %}
-                    <span class="ngram-hover">{{ term }}</span>,
+                    <span class="ngram-hover">{{ term }}</span>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             {% endfor %}
         </p>
