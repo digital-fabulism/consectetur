@@ -7,7 +7,7 @@ function slug(Text)
         ;
 }
 $(document).ready(function(){
-    $('.bigram-hover').hover(function(){
+    $('.ngram-hover').hover(function(){
       $('.'+slug(this.innerHTML)).addClass('active');
       }, function(){
       $('.'+slug(this.innerHTML)).removeClass('active');

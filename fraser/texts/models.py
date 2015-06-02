@@ -2,6 +2,7 @@ import nltk
 from nltk.util import ngrams
 from collections import defaultdict
 import json
+import re
 
 from django.db import models
 from django.utils.text import slugify
@@ -133,26 +134,30 @@ class Document(models.Model):
         trigrams = json.dumps(self.ngrammer(gramsize=3))
         self.trigrams = trigrams
         self.save()
-   
+
+    def repl(self, ngram=None):
+        for match in re.findall(ngram, self.body_text_marked, re.I):
+            repl = '<span class="%s">%s</span>' % ( slugify(match), match)
+            self.body_text_marked = re.sub(match, repl, self.body_text_marked)
+            break
+
     def mark_body_text(self):
         self.body_text_marked = self.body_text.replace("\r\n\r\n","<p>")
-        self.body_text_marked = self.body_text_marked.replace("\r\n","<br />")
+        self.body_text_marked = self.body_text_marked.replace("\r\n"," ")
         if len(self.trigrams) > 0:
             self.body_text_marked = self.body_text
             for ngram_freq in self.trigrams:
                 for ngram, count in ngram_freq.iteritems():
-                    replacement = '<span class="%s">%s</span>' % (slugify(ngram), ngram)
-                    self.body_text_marked = self.body_text_marked.replace(ngram, replacement) 
+                    self.repl(ngram=ngram)
             self.save()
         if len(self.bigrams) > 0:
             if not self.body_text_marked:
                 self.body_text_marked = self.body_text
             for ngram_freq in self.bigrams:
                 for ngram, count in ngram_freq.iteritems():
-                    replacement = '<span class="%s">%s</span>' % (slugify(ngram), ngram)
-                    self.body_text_marked = self.body_text_marked.replace(ngram, replacement) 
+                    self.repl(ngram=ngram)
             self.save()
-     
+ 
     def tag_me(self):
         for gramsize in (2,3):
             for ngram in self.ngrammer(gramsize=gramsize):
