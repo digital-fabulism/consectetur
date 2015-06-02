@@ -79,6 +79,12 @@ class Document(models.Model):
     def save(self):    
         self.slug = slugify(self.id_number())
         if self.correction_complete:
+            self.bigrams = self.get_bigrams()
+            self.trigrams = self.get_trigrams()
+            # TODO: remove recursion, make get/set:
+            #self.mark_body_text()
+            #self.tag_me()
+            
             self.format = "Corrected OCR text"
         super(Document, self).save()
 
@@ -125,14 +131,20 @@ class Document(models.Model):
         # return them, sorted by most frequent
         return sorted(shingle_list_w_frequency, reverse = True)
 
-    def set_bigrams(self):
+    def get_bigrams(self):
         bigrams = json.dumps(self.ngrammer(gramsize=2))
-        self.bigrams = bigrams
+        return bigrams
+    
+    def set_bigrams(self):
+        self.bigrams = self.get_bigrams()
         self.save()
 
-    def set_trigrams(self):
+    def get_trigrams(self):
         trigrams = json.dumps(self.ngrammer(gramsize=3))
-        self.trigrams = trigrams
+        return trigrams
+
+    def set_trigrams(self):
+        self.trigrams = self.get_trigrams()
         self.save()
 
     def repl(self, ngram=None):
@@ -145,14 +157,11 @@ class Document(models.Model):
         self.body_text_marked = self.body_text.replace("\r\n\r\n","<p>")
         self.body_text_marked = self.body_text_marked.replace("\r\n"," ")
         if len(self.trigrams) > 0:
-            self.body_text_marked = self.body_text
             for ngram_freq in self.trigrams:
                 for ngram, count in ngram_freq.iteritems():
                     self.repl(ngram=ngram)
             self.save()
         if len(self.bigrams) > 0:
-            if not self.body_text_marked:
-                self.body_text_marked = self.body_text
             for ngram_freq in self.bigrams:
                 for ngram, count in ngram_freq.iteritems():
                     self.repl(ngram=ngram)
