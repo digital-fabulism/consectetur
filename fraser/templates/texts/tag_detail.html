@@ -16,7 +16,7 @@
                     <tr>
                         <td>{{ doc.date_first }}</td>
                         <td><a href="{{ doc.get_absolute_url }}">{{ doc.title }}</a></td>
-                        <td>Tags: {% for tag in doc.tags.all %}<a href="{{ tag.slug }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %} </td>
+                        <td>Tags: {% for tag in doc.tags.all %}<a href="/tag/{{ tag.slug }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %} </td>
                     </tr>
                 {% endfor %}
             </tbody>

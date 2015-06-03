@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'haystack',
     'texts',
     'taggit',
+    'taggit_templatetags',
     'jsonfield',
 )
 
@@ -113,3 +114,6 @@ HAYSTACK_CONNECTIONS = {
         'URL': 'http://127.0.0.1:8983/solr'
     },
 }
+
+
+TAGGIT_TAGCLOUD_MIN = 3.0

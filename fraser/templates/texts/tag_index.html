@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load taggit_extras %}
+{% block main_content %}
+    <div class="col-md-12">&nbsp;
+    </div>
+    <div class="col-md-3">
+        <h4>All Tags as a list</h4>
+        {% get_taglist as tag_list %}
+            <ul>
+                {% for tag in tag_list %}
+                    <li><a href="/tag/{{ tag.slug }}">{{tag}}</a> ({{tag.num_times}})</li>
+                {% endfor %}
+            <ul>
+    </div>
+    <div class="col-md-9">
+    <h4>Tag Cloud</h4>
+        {% get_tagcloud as tag_cloud %}
+            {% for tag in tag_cloud %}
+                <font size={{tag.weight|floatformat:0}}><a href="/tag/{{ tag.slug }}">{{tag}}</a></font>
+            {% endfor %}    
+    </div>
+{% endblock %}

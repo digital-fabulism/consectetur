@@ -67,9 +67,9 @@ def press_statement_list(request):
     talks = Document.objects.filter(description="Press statement")
     return render(request, 'texts/press_statement_list.html', {'talks': talks})
 
-class TagIndexList(ListView):
-    def get_queryset(self):
-        return Document.objects.filter(tags__slug=self.kwargs.get('slug'))
+def tags(request):
+    return render(request, 'texts/tag_index.html')
+    #return redirect('tags')
 
 class TagDetailList(ListView):
     template_name = 'texts/tag_detail.html'
