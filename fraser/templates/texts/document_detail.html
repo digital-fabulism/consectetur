@@ -34,8 +34,8 @@
         {% if object.bigrams|length > 0 %}
         <p><strong>Bigrams:</strong>
             {% for gram in object.bigrams %}
-                {% for term, count in gram.iteritems %}
-                    <span class="ngram-hover">{{ term }}</span>{% if not forloop.last %}, {% endif %}
+                {% for term, count in gram.items %}
+                    <span class="ngram-hover">{{ term }}</span>{% if not forloop.parentloop.last %}, {% endif %}
                 {% endfor %}
             {% endfor %}
         </p>
@@ -44,7 +44,7 @@
         <p><strong>Trigrams:</strong>
             {% for gram in object.trigrams %}
                 {% for term, count in gram.iteritems %}
-                    <span class="ngram-hover">{{ term }}</span>{% if not forloop.last %}, {% endif %}
+                    <span class="ngram-hover">{{ term }}</span>{% if not forloop.parentloop.last %}, {% endif %}
                 {% endfor %}
             {% endfor %}
         </p>
