@@ -57,6 +57,7 @@ class DocumentAdmin(admin.ModelAdmin):
         ('Details', {'fields': (('title', 'date_first', 'date_last'), ('description', 'notes'))}),
         ('Archival details', {'fields': (('collection', 'collection_uma_id'), ('uds_number', 'previous_control_number'), 'irn')}),
         ('Summary', {'fields': (('extent_medium', 'format', 'rights'), ('body_text', 'tags'))}),
+        ('Linguistics', {'fields': (('bigrams', 'trigrams'), ('concordances'))}),
         ('Corrections', {'fields': ('correction_needed', 'correction_check', 'correction_complete')}),
         ('Marked text', {'fields': ('body_text_marked',)}),
         ('Files', {'fields': ('text_file', 'image_file', 'pdf_file')}),

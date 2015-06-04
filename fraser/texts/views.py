@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+from django.utils.text import slugify
 
 from .models import Document, Collection
 from .forms import DocumentCorrectForm, DocumentCheckForm
@@ -66,6 +67,11 @@ def electorate_talk_list(request):
 def press_statement_list(request):
     talks = Document.objects.filter(description="Press statement")
     return render(request, 'texts/press_statement_list.html', {'talks': talks})
+
+def document_concordance(request, slug=None, tag=None):
+    document = Document.objects.get(slug=slug)
+    concordances = document.get_conc(tag)
+    return render(request, 'texts/document_detail_conc.html', {'document': document, 'concordances': concordances}) 
 
 def tags(request):
     return render(request, 'texts/tag_index.html')

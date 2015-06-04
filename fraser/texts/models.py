@@ -60,6 +60,7 @@ class Document(models.Model):
     bigrams = jsonfield.JSONField()
     trigrams = jsonfield.JSONField()
     body_text_marked = models.CharField(max_length=21000, blank=True) 
+    concordances = jsonfield.JSONField()
 
     slug = models.SlugField(max_length=100)
     tags = TaggableManager(blank=True)
@@ -172,4 +173,47 @@ class Document(models.Model):
             for ngram in self.ngrammer(gramsize=gramsize):
                 for shingle, count in ngram.iteritems():
                     self.tags.add(shingle)
+        self.save()
+
+    def get_conc(self, tag=None):
+        for ngram in self.trigrams + self.bigrams:
+            for text, count in ngram.items():
+                if slugify(text) == tag:
+                    return self.concordances[text]
+
+    def get_concordances(self):
+        '''
+        Prepare the text 
+            - remove line breaks, but retain paragraphs
+            - lowercase everything
+        '''
+        prepared_text = self.body_text.replace("\r\n\r\n","&*****&")
+        prepared_text = prepared_text.replace("\r\n"," ")
+        prepared_text = prepared_text.replace("&*****&", "\r\n")       
+        prepared_text = prepared_text.lower()
+
+        concordance_collection = {}       
+        ngram_concordance_list = []
+
+        # check the text has information in it
+        if not self.bigrams:
+            self.set_bigrams()
+        if not self.trigrams:
+            self.set_trigrams()
+        if len(self.bigrams) == 0 and len(self.trigrams) == 0:
+            return json.dumps(concordance_collection)
+
+        # create the concordances
+        for ngram in self.trigrams + self.bigrams:
+            for text, count in ngram.items():
+                cl = [(q.start(), q.end()) for q in re.finditer(text, prepared_text)]
+                for start, end in cl:
+                    concline = prepared_text[start-30:start], text, prepared_text[end:end+30]
+                    ngram_concordance_list.append(concline)
+                concordance_collection[text] = ngram_concordance_list
+                ngram_concordance_list = []
+        return json.dumps(concordance_collection)
+
+    def set_concordance(self):
+        self.concordances = self.get_concordances()
         self.save()

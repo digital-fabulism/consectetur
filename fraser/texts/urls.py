@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import DocumentCheckList, DocumentCorrectList, DocumentCheck, DocumentCorrect, DocumentUpdate, DocumentDetail, DocumentList, electorate_talk_list, press_statement_list, archive_index, revert_document, finalize_document, TagDetailList, tags
+from .views import DocumentCheckList, DocumentCorrectList, DocumentCheck, DocumentCorrect, DocumentUpdate, DocumentDetail, DocumentList, electorate_talk_list, press_statement_list, archive_index, revert_document, finalize_document, TagDetailList, tags, document_concordance
 
 urlpatterns = [
     #url(r'^$', DocumentList.as_view(), name='archive_index'),
@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^tags/', tags, name='tags'), 
     url(r'^tag/(?P<slug>[-\w]+)/$', TagDetailList.as_view(), name='tag'),    
     url(r'^(?P<slug>[-\w]+)/$', DocumentDetail.as_view(), name='doc_detail'),
+    url(r'^(?P<slug>[-\w]+)/conc/(?P<tag>[-\w]+)$', document_concordance, name='doc_concordance'),
     url(r'^(?P<slug>[-\w]+)/update/$', DocumentUpdate.as_view(), name='doc_update'),
     url(r'^(?P<slug>[-\w]+)/revert/$', revert_document, name='doc_revert'),
     url(r'^(?P<slug>[-\w]+)/finalized/$', finalize_document, name='doc_finalize'),
