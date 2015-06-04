@@ -16,3 +16,7 @@
   background-color: #AAFFAA;
 }
 
+.col1-right td:nth-child(1) {text-align: right}
+.col2-centre td:nth-child(2) {text-align: center}
+.col3-left td:nth-child(3) {text-align: left}
+
