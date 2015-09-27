@@ -89,6 +89,52 @@ class Document(models.Model):
             self.format = "Corrected OCR text"
         super(Document, self).save()
 
+    def return_timeline_json(self):
+        #This is ugly, fix it (TODO)
+        url = ''.join(['http://fraser.digitalfabulists.org', self.ge
+        ngrams = []                                                 
+        for tg in self.trigrams:
+            for key, val in tg.iteritems():
+                ngrams.append(key)
+        for bg in self.bigrams:
+            for key, val in bg.iteritems():
+                ngrams.append(key)
+        
+        ngram_str = ', '.join(ngrams)
+        doc_dict = {  
+                    "start_date": {
+                        "year":  self.date_first.year,
+                        "month": self.date_first.month,
+                        "day":   self.date_first.day,
+                        "hour":         "",
+                        "minute":       "",
+                        "second":       "",
+                        "millisecond":  "",
+                        "format":       ""
+                    },
+                     "end_date": {
+                        "year":         "",
+                        "month":        "",
+                        "day":          "",
+                        "hour":         "",
+                        "minute":       "",
+                        "second":       "",
+                        "millisecond":  "",
+                        "format":       ""
+                    },
+                    "media": {
+                        "caption":      "",
+                        "credit":       "",
+                        "url":          "",
+                        "thumbnail":    ""
+                    },
+                    "text": {
+                        "headline": self.title,
+                        "text": ngram_str    
+                    }
+            }
+        return doc_dict
+
     def get_year(self):
         return self.date_first.year
 

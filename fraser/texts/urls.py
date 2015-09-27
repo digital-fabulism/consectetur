@@ -1,11 +1,12 @@
 from django.conf.urls import url
 
-from .views import DocumentCheckList, DocumentCorrectList, DocumentCheck, DocumentCorrect, DocumentUpdate, DocumentDetail, DocumentList, electorate_talk_list, press_statement_list, archive_index, revert_document, finalize_document, TagDetailList, tags, document_concordance
+from .views import DocumentCheckList, DocumentCorrectList, DocumentCheck, DocumentCorrect, DocumentUpdate, DocumentDetail, DocumentList, electorate_talk_list, press_statement_list, archive_index, revert_document, finalize_document, TagDetailList, tags, document_concordance, timeline_json_output
 
 urlpatterns = [
     #url(r'^$', DocumentList.as_view(), name='archive_index'),
     url(r'^$', archive_index, name='archive_index'),
     url(r'^all_archives/$', archive_index, name='archive_index'),
+    url(r'^timeline_js/$', timeline_json_output, name='timeline_js'),
     url(r'^electorates/$', electorate_talk_list, name='electorates'),
     url(r'^press_statements/$', press_statement_list, name='press_statements'),
     url(r'^for_correction/$', DocumentCorrectList.as_view(), name='for_correction'),

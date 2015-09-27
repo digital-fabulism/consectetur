@@ -1,3 +1,6 @@
+import csv, json
+
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -88,3 +91,39 @@ class TagDetailList(ListView):
         context = super(TagDetailList, self).get_context_data(**kwargs)
         context['tag'] = self.kwargs.get('slug')
         return context
+
+def timeline_js_output(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="timelin
+    
+    writer = csv.writer(response)
+    writer.writerow(['Year','Month','Day','Time','End Year','End Mon
+
+    docs = Document.objects.all()
+    for doc in docs:
+        url = doc.get_absolute_url() 
+        bigrams = []                                                
+        for bg in doc.bigrams:
+            for key, val in bg.iteritems():
+                bigrams.append(key)
+        bigram_str = ' '.join(bigrams)
+        writer.writerow([doc.date_first.year, doc.date_first.month,d
+
+    return response
+
+def timeline_json_output(request):
+    events = {"title": { 
+                "text": {
+                    "headline": "Fraser Radio Talks",
+                    "text":     "Somethign Something"
+                 }
+              },
+              "events": [
+              ]
+     }
+
+    docs = Document.objects.all()
+    for doc in docs:
+        events['events'].append(doc.return_timeline_json())
+    return JsonResponse(events)    
+
