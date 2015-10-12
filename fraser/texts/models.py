@@ -91,16 +91,16 @@ class Document(models.Model):
 
     def return_timeline_json(self):
         #This is ugly, fix it (TODO)
-        url = ''.join(['http://fraser.digitalfabulists.org', self.ge
-        ngrams = []                                                 
+        url = ''.join(['http://fraser.digitalfabulists.org', self.get_absolute_url()])
+        doc_ngrams = []                                                 
         for tg in self.trigrams:
             for key, val in tg.iteritems():
-                ngrams.append(key)
+                doc_ngrams.append(key)
         for bg in self.bigrams:
             for key, val in bg.iteritems():
-                ngrams.append(key)
+                doc_ngrams.append(key)
         
-        ngram_str = ', '.join(ngrams)
+        ngram_str = ', '.join(doc_ngrams)
         doc_dict = {  
                     "start_date": {
                         "year":  self.date_first.year,
