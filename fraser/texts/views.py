@@ -91,26 +91,7 @@ class TagDetailList(ListView):
         context = super(TagDetailList, self).get_context_data(**kwargs)
         context['tag'] = self.kwargs.get('slug')
         return context
-'''
-def timeline_js_output(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="timeline.json'
-    
-    writer = csv.writer(response)
-    writer.writerow(['Year','Month','Day','Time','End Year','End Mon
 
-    docs = Document.objects.all()
-    for doc in docs:
-        url = doc.get_absolute_url() 
-        bigrams = []                                                
-        for bg in doc.bigrams:
-            for key, val in bg.iteritems():
-                bigrams.append(key)
-        bigram_str = ' '.join(bigrams)
-        writer.writerow([doc.date_first.year, doc.date_first.month,d
-
-    return response
-'''
 def timeline_json_output(request):
     events = {"title": { 
                 "text": {
@@ -128,12 +109,6 @@ def timeline_json_output(request):
               ]
      }
     
-    '''
-    from random import sample
-    count = Document.objects.all().count()
-    rand_ids = sample(xrange(1, count), 10)
-    docs = Document.objects.filter(id__in=rand_ids)
-    '''
     docs = Document.objects.all()
     for doc in docs:
         events['events'].append(doc.return_timeline_json())
