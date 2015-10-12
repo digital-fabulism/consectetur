@@ -80,60 +80,14 @@ class Document(models.Model):
     def save(self):    
         self.slug = slugify(self.id_number())
         if self.correction_complete:
-            self.bigrams = self.get_bigrams()
-            self.trigrams = self.get_trigrams()
+            #self.bigrams = self.get_bigrams()
+            #self.trigrams = self.get_trigrams()
             # TODO: remove recursion, make get/set:
             #self.mark_body_text()
             #self.tag_me()
             
             self.format = "Corrected OCR text"
         super(Document, self).save()
-
-    def return_timeline_json(self):
-        #This is ugly, fix it (TODO)
-        url = ''.join(['http://fraser.digitalfabulists.org', self.get_absolute_url()])
-        doc_ngrams = []                                                 
-        for tg in self.trigrams:
-            for key, val in tg.iteritems():
-                doc_ngrams.append(key)
-        for bg in self.bigrams:
-            for key, val in bg.iteritems():
-                doc_ngrams.append(key)
-        
-        ngram_str = ', '.join(doc_ngrams)
-        doc_dict = {  
-                    "start_date": {
-                        "year":  self.date_first.year,
-                        "month": self.date_first.month,
-                        "day":   self.date_first.day,
-                        "hour":         "",
-                        "minute":       "",
-                        "second":       "",
-                        "millisecond":  "",
-                        "format":       ""
-                    },
-                     "end_date": {
-                        "year":         "",
-                        "month":        "",
-                        "day":          "",
-                        "hour":         "",
-                        "minute":       "",
-                        "second":       "",
-                        "millisecond":  "",
-                        "format":       ""
-                    },
-                    "media": {
-                        "caption":      "",
-                        "credit":       "",
-                        "url":          "",
-                        "thumbnail":    ""
-                    },
-                    "text": {
-                        "headline": self.title,
-                        "text": ngram_str    
-                    }
-            }
-        return doc_dict
 
     def get_year(self):
         return self.date_first.year
@@ -213,7 +167,7 @@ class Document(models.Model):
                 for ngram, count in ngram_freq.iteritems():
                     self.repl(ngram=ngram)
             self.save()
- 
+
     def tag_me(self):
         for gramsize in (2,3):
             for ngram in self.ngrammer(gramsize=gramsize):
@@ -263,3 +217,49 @@ class Document(models.Model):
     def set_concordance(self):
         self.concordances = self.get_concordances()
         self.save()
+
+    def return_timeline_json(self):
+        #This is ugly, fix it (TODO)
+        url = ''.join(['http://fraser.digitalfabulists.org', self.get_absolute_url()])
+        doc_ngrams = []                                                 
+        for tg in self.trigrams:
+            for key, val in tg.iteritems():
+                doc_ngrams.append(key)
+        for bg in self.bigrams:
+            for key, val in bg.iteritems():
+                doc_ngrams.append(key)
+        
+        ngram_str = ', '.join(doc_ngrams)
+        doc_dict = {  
+                    "start_date": {
+                        "year":  self.date_first.year,
+                        "month": self.date_first.month,
+                        "day":   self.date_first.day,
+                        "hour":         "",
+                        "minute":       "",
+                        "second":       "",
+                        "millisecond":  "",
+                        "format":       ""
+                    },
+                     "end_date": {
+                        "year":         "",
+                        "month":        "",
+                        "day":          "",
+                        "hour":         "",
+                        "minute":       "",
+                        "second":       "",
+                        "millisecond":  "",
+                        "format":       ""
+                    },
+                    "media": {
+                        "caption":      "",
+                        "credit":       "",
+                        "url":          "",
+                        "thumbnail":    ""
+                    },
+                    "text": {
+                        "headline": self.title,
+                        "text": ngram_str    
+                    }
+            }
+        return doc_dict

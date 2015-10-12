@@ -18,6 +18,7 @@ class DocumentCorrectForm(forms.ModelForm):
         instance.correction_needed = False
         instance.correction_check = True
         instance.correction_complete = False
+        #instance.
         if commit:
             instance.save()
         return super(DocumentCorrectForm, self).save() 

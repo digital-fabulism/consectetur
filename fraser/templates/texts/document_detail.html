@@ -103,6 +103,7 @@
     </div>
     <div class="panel-body">{% autoescape off %}
         {{ object.body_text_marked }}{% endautoescape %}
+        {# I think we need to check if body_text exists, if it does, render that instead #}
     </div>
   </div>
 </div>
