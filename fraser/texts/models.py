@@ -79,13 +79,11 @@ class Document(models.Model):
 
     def save(self):    
         self.slug = slugify(self.id_number())
+        self.bigrams = self.get_bigrams()
+        self.trigrams = self.get_trigrams()
+        self.mark_body_text()
+        self.tag_me()
         if self.correction_complete:
-            #self.bigrams = self.get_bigrams()
-            #self.trigrams = self.get_trigrams()
-            # TODO: remove recursion, make get/set:
-            #self.mark_body_text()
-            #self.tag_me()
-            
             self.format = "Corrected OCR text"
         super(Document, self).save()
 
@@ -161,19 +159,20 @@ class Document(models.Model):
             for ngram_freq in self.trigrams:
                 for ngram, count in ngram_freq.iteritems():
                     self.repl(ngram=ngram)
-            self.save()
+            #self.save()
         if len(self.bigrams) > 0:
             for ngram_freq in self.bigrams:
                 for ngram, count in ngram_freq.iteritems():
                     self.repl(ngram=ngram)
-            self.save()
+            #self.save()
 
     def tag_me(self):
+        self.tags.clear()
         for gramsize in (2,3):
             for ngram in self.ngrammer(gramsize=gramsize):
                 for shingle, count in ngram.iteritems():
                     self.tags.add(shingle)
-        self.save()
+        #self.save()
 
     def get_conc(self, tag=None):
         for ngram in self.trigrams + self.bigrams:
