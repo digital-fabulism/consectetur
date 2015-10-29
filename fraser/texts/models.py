@@ -240,16 +240,6 @@ class Document(models.Model):
                         "millisecond":  "",
                         "format":       ""
                     },
-                     "end_date": {
-                        "year":         "",
-                        "month":        "",
-                        "day":          "",
-                        "hour":         "",
-                        "minute":       "",
-                        "second":       "",
-                        "millisecond":  "",
-                        "format":       ""
-                    },
                     "media": {
                         "caption":      "",
                         "credit":       "",

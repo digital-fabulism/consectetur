@@ -113,3 +113,25 @@ def timeline_json_output(request):
     for doc in docs:
         events['events'].append(doc.return_timeline_json())
     return JsonResponse(events)    
+
+def timeline_json_output_1974(request):
+    events = {"title": { 
+                "text": {
+                    "headline": "Fraser Radio Talks",
+                    "text":     "Somethign Something"
+                 },
+                "media": { 
+                     "caption":      "",
+                     "credit":       "",
+                     "url":          "url_to_your_media.jpg",
+                     "thumbnail":    "url_to_your_media.jpg"
+                }
+              },
+              "events": [
+              ]
+     }
+    
+    docs = Document.objects.filter(date_first__year=1974)
+    for doc in docs:
+        events['events'].append(doc.return_timeline_json())
+    return JsonResponse(events)    
