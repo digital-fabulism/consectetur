@@ -31,7 +31,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'haystack',
     'texts',
     'taggit',
     'taggit_templatetags',
