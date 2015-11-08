@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+    <div class="col-md-12">
+    <table>
+        <tr>
+            <td>id</td>   
+            <td>title</td>   
+            <td>pm</td>   
+            <td>pos</td>   
+            <td>rd</td>   
+            <td>url</td>   
+            <td>con</td>   
+        </tr> 
+        <tr>
+        {% for blank in blanks %}
+            <td><a href="doc/{{ blank.id}}">{{ blank.id }}</a></td>   
+            <td>{{ blank.title }}</td>   
+            <td>{{ blank.prime_minister }}</td>   
+            <td>{{ blank.period_of_service }}</td>   
+            <td>{{ blank.release_date }}</td>   
+            <td>{{ blank.document_url }}</td>   
+            {% if blank.content %}
+                <td>BLANK</td>
+            {% else %}
+                <td>Not blank</td>
+            {% endif %}
+        </tr>      
+        {% endfor %}  
+    </table>
+    </div>
+{% endblock %}
