@@ -20,10 +20,10 @@ class Document(models.Model):
     prime_minister = models.CharField(max_length=90, null=True)
     period_of_service = models.CharField(max_length=20, null=True)
     release_date = models.DateField()
-    release_type = models.CharField(max_length=30, null=True)
+    release_type = models.CharField(max_length=90, null=True)
     document_url = models.URLField(null=True)
     subjects = models.CharField(max_length=400, blank=True, null=True)
-    content = models.CharField(max_length=70000, null=True)
+    content = models.CharField(max_length=165000, null=True)
 
     bigrams = jsonfield.JSONField()
     trigrams = jsonfield.JSONField()

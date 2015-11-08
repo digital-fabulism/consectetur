@@ -12,7 +12,6 @@
     {% block javascript %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
         <script src="{% static "js/bootstrap.js" %}"></script> 
-         <script src="http://squawk.cc/squawk.js"></script> 
     {% endblock javascript %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Malcolm Fraser Radio Electorate Talks{% endblock %}</title>
@@ -32,16 +31,7 @@
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav">
-                        <li><a href="{% url 'archive_index' %}">All Archives</a></li>
-                        <li><a href="{% url 'electorates' %}">Electorate Radio Talks</a></li>
-                        <li><a href="{% url 'press_statements' %}">Press Statements</a></li>
-                        <li><a href="{% url 'tags' %}">Tags</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="/for_correction">Documents needing correction</a></li>
-                                <li><a href="/for_checking">Documents needing checking</a></li>
-                            </ul>
                         </li>
                     </ul>
                     <form method=get action="/search" class="navbar-form pull-right" role="search">

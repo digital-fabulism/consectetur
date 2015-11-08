@@ -21,10 +21,10 @@ class PDFFilter(admin.SimpleListFilter):
 
 class DocumentAdmin(admin.ModelAdmin):
     fieldsets = (
-        ('Details', {'fields': ('naa_transcript_id', 'title', 'prime_minister'), }),
+        ('Details', {'fields': (('naa_transcript_id', 'title', 'prime_minister'), 'slug')}),
         ('Archival details', {'fields': (('period_of_service', 'release_date'), ('release_type', 'document_url'), 'subjects')}),
         ('Summary', {'fields': ('content',)}),
     )
-    list_display = ('prime_minister','title','release_date') 
+    list_display = ('naa_transcript_id', 'prime_minister','title','release_date') 
 
 admin.site.register(Document, DocumentAdmin)
